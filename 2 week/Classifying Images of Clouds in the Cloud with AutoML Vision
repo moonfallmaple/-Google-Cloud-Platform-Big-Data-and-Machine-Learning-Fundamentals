@@ -1,0 +1,55 @@
+What you learn
+In this lab, you learn how to perform the following tasks:
+
+- Upload a labeled dataset to Cloud Storage and connect it to AutoML Vision with a CSV label file
+
+- Train a model with AutoML Vision and evaluate its accuracy
+
+- Generate predictions on your trained model
+
+Task 1. Set up AutoML Vision
+## Create a Cloud Storage bucket for your training data
+
+`gsutil mb -p $DEVSHELL_PROJECT_ID \
+    -c regional    \
+    -l us-central1 \
+    gs://$DEVSHELL_PROJECT_ID-vcm/
+`
+## Enabled AutoML API 
+
+Task 2. Upload training images to Cloud Storage
+gsutil -m cp -r gs://cloud-training/automl-lab-clouds/* gs://$DEVSHELL_PROJECT_ID-vcm/
+gsutil ls gs://$DEVSHELL_PROJECT_ID-vcm/
+
+Task 3. Create an AutoML Vision training dataset
+Run the following commands which:
+
+- Copy the template file to your Cloud Shell instance
+
+- Update the CSV with the files in your project
+
+- Upload this file to your Cloud Storage bucket
+
+- Show the bucket to confirm the data.csv file is present
+`
+gsutil cp gs://cloud-training/automl-lab-clouds/data.csv .
+head --lines=10 data.csv
+sed -i -e "s/placeholder/$DEVSHELL_PROJECT_ID-vcm/g" ./data.csv
+head --lines=10 data.csv
+gsutil cp ./data.csv gs://$DEVSHELL_PROJECT_ID-vcm/
+gsutil ls gs://$DEVSHELL_PROJECT_ID-vcm/
+`
+
+Task 4. Inspect the images
+
+Task 5. Train your model
+To train your clouds model, go to the Train tab and click Start training.
+Enter a name for your model, or use the default auto-generated name.
+Leave Cloud hosted selected and click Continue.
+For the next step, type the value "8" into the Set your budget * box and check Deploy model to 1 node after training. 
+This process (auto-deploy) will make your model immediately available for predictions after testing is complete.
+Click Start training.
+
+Task 6. Evaluate your model
+After training is complete, select the Evaluate tab. Here you'll see information about Precision and Recall of the model. It should resemble the following:
+
